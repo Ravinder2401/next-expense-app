@@ -1,3 +1,4 @@
+// === STEP 2: /firebase/firestore.ts ===
 import { db } from './config';
 import {
   collection,
@@ -6,34 +7,28 @@ import {
   query,
   where,
   Timestamp,
+  orderBy,
 } from 'firebase/firestore';
 
+export async function getUserExpenses(email: string) {
+  const expensesRef = collection(db, 'expenses');
+  const q = query(
+    expensesRef,
+    where('email', '==', email),
+    orderBy('createdAt', 'desc')
+  );
 
-// Add expense in firebase
-export const addExpense = async (
-  email: string,
-  amount: number,
-  category: string,
-  note: string
-) => {
-  const ref = collection(db, 'expenses');
-  return await addDoc(ref, {
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+}
+
+export async function addExpense(email: string, amount: number, category: string, note?: string) {
+  const expensesRef = collection(db, 'expenses');
+  await addDoc(expensesRef, {
     email,
     amount,
     category,
-    note,
+    note: note || '',
     createdAt: Timestamp.now(),
   });
-};
-
-// Get all expenses of user
-export const getUserExpenses = async (email: string) => {
-  const ref = collection(db, 'expenses');
-  const q = query(ref, where('email', '==', email));
-  const querySnapshot = await getDocs(q);
-
-  return querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-};
+}
