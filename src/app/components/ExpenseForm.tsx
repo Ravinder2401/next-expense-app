@@ -6,10 +6,9 @@ import { addExpense } from '@/firebase/firestore';
 
 interface Props {
   email: string;
-  onAdded: () => void;
 }
 
-export default function ExpenseForm({ email, onAdded }: Props) {
+export default function ExpenseForm({ email }: Props) {
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
   const [note, setNote] = useState('');
@@ -29,8 +28,6 @@ export default function ExpenseForm({ email, onAdded }: Props) {
     setCategory('');
     setNote('');
     setLoading(false);
-    // 👇 Notify parent to refresh
-    if (onAdded) onAdded();
   };
 
   return (
