@@ -10,6 +10,14 @@ import {
   orderBy,
 } from 'firebase/firestore';
 
+type Expense = {
+  id: string;
+  amount: number;
+  category: string;
+  note: string;
+  createdAt: any;
+};
+
 export async function getUserExpenses(email: string) {
   const expensesRef = collection(db, 'expenses');
   const q = query(
@@ -19,7 +27,7 @@ export async function getUserExpenses(email: string) {
   );
 
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Expense));
 }
 
 export async function addExpense(email: string, amount: number, category: string, note?: string) {

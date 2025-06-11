@@ -29,7 +29,8 @@ export default function ExpenseForm({ email, onAdded }: Props) {
     setCategory('');
     setNote('');
     setLoading(false);
-    onAdded();
+    // 👇 Notify parent to refresh
+    if (onAdded) onAdded();
   };
 
   return (
