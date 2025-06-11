@@ -8,6 +8,10 @@ import {
   where,
   Timestamp,
   orderBy,
+  doc,
+  getDoc,
+  deleteDoc,
+  updateDoc
 } from 'firebase/firestore';
 
 type Expense = {
@@ -39,4 +43,16 @@ export async function addExpense(email: string, amount: number, category: string
     note: note || '',
     createdAt: Timestamp.now(),
   });
+}
+
+export async function deleteExpenseById(id: string) {
+  const ref = doc(db, 'expenses', id);
+  await deleteDoc(ref);
+}
+
+export async function updateExpenseById(id: string, data: any) {
+  const ref = doc(db, 'expenses', id);
+  await updateDoc(ref, data);
+  const updatedSnap = await getDoc(ref);
+  return { id, ...updatedSnap.data() } as any;
 }
