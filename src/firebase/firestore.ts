@@ -56,3 +56,34 @@ export async function updateExpenseById(id: string, data: any) {
   const updatedSnap = await getDoc(ref);
   return { id, ...updatedSnap.data() } as any;
 }
+
+export async function fetchExpensesByFilter(
+  email: string,
+  category?: string,
+  fromDate?: Date,
+  toDate?: Date
+) {
+  const q = query(
+    collection(db, 'expenses'),
+    where('email', '==', email),
+    orderBy('createdAt', 'desc')
+  );
+
+  const snapshot = await getDocs(q);
+  const allExpenses = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  // Filter manually
+  return allExpenses.filter((item: any) => {
+    if (!item.createdAt) return false;
+
+    const created: Date = (item.createdAt as Timestamp).toDate(); // ✅ Use Timestamp directly
+    const inCategory = !category || item.category === category;
+    const inDateRange =
+      !fromDate || !toDate || (created >= fromDate && created <= toDate);
+
+    return inCategory && inDateRange;
+  });
+}
