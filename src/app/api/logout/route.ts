@@ -7,7 +7,7 @@ export async function GET() {
   const response = NextResponse.redirect(new URL('/login', 'http://localhost:3000'));
 
   // Clear token cookie
-  response.cookies.set('token', '', {
+  response.cookies.set('user', '', {
     path: '/',
     maxAge: 0,
   });

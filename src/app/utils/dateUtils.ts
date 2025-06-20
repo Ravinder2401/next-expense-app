@@ -16,3 +16,12 @@ export function getDateRange(type: 'today' | 'week' | 'month' | '3months') {
 
   return { start, end };
 }
+
+// utils/dateUtils.ts
+export function getDateRangeFromDays(days: number) {
+  const end = new Date();
+  const start = new Date();
+  start.setDate(end.getDate() - days + 1);
+  return { start, end };
+}
+

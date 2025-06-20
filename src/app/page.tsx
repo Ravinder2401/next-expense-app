@@ -1,11 +1,6 @@
-'use client';
-import { useEffect } from 'react';
-import { auth } from '@/firebase/config';
+import Dashboard from './(dashboard)/dashboard/page';
 
 export default function Home() {
-  useEffect(() => {
-    console.log('Firebase Auth instance:', auth);
-  }, []);
 
-  return <h1>Hello Firebase + Next.js!</h1>;
+  return <Dashboard />;
 }

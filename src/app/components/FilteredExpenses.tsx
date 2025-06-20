@@ -99,7 +99,7 @@ export default function FilteredExpenses({ email, initialExpenses }: Props) {
   const [expenses, setExpenses] = useState(initialExpenses || []);
   const [hasLoaded, setHasLoaded] = useState(false);
   const [category, setCategory] = useState('');
-  const [dateRange, setDateRange] = useState<'today' | 'week' | 'month' | '3months'>('today');
+  const [dateRange, setDateRange] = useState<'today' | 'week' | 'month' | '3months'>('week');
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState<any | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -152,16 +152,7 @@ export default function FilteredExpenses({ email, initialExpenses }: Props) {
         </div>
       )}
 
-
-      {/* Expense List */}
-      {!hasLoaded ? (
-        <p className="text-gray-500 text-sm"></p>
-      ) : expenses.length === 0 ? (
-        <p className="text-gray-500 text-sm">No expenses found for the selected filters.</p>
-      ) : (
-        <>
-        {/* Filters + Total Expenses */}
-<div className="bg-white border rounded-lg shadow p-4 mb-6 flex flex-col gap-4">
+      <div className="bg-white border rounded-lg shadow p-4 mb-6 flex flex-col gap-4">
 
   {/* Total Expenses (Full Width) */}
   {hasLoaded && expenses.length > 0 && (
@@ -193,6 +184,16 @@ export default function FilteredExpenses({ email, initialExpenses }: Props) {
     </div>
   </div>
 </div>
+
+
+      {/* Expense List */}
+      {!hasLoaded ? (
+        <p className="text-gray-500 text-sm"></p>
+      ) : expenses.length === 0 ? (
+        <p className="text-gray-500 text-sm">No expenses found.</p>
+      ) : (
+        <>
+        {/* Filters + Total Expenses */}
         <ul className="divide-y divide-gray-200 border rounded-lg bg-white shadow">
           {expenses.map((exp) => (
             <li

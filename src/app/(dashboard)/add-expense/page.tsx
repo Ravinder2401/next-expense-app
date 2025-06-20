@@ -9,7 +9,6 @@ export default async function AddExpensePage() {
 
   return (
     <>
-      <h1 className="text-xl font-bold mb-4">Add New Expense</h1>
       {user.email && <ExpenseForm email={user.email} />}
     </>
   );

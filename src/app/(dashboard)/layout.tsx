@@ -4,7 +4,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <>
       <Navbar />
-      <main className="p-6 max-w-3xl mx-auto">{children}</main>
+      <main className="px-4 sm:px-8 lg:px-12 xl:px-16 py-6 max-w-screen-xl mx-auto">
+        {children}
+      </main>
+
     </>
   );
 }

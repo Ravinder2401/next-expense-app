@@ -17,11 +17,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const stored = localStorage.getItem('user');
-    if (stored) setUser(JSON.parse(stored));
+useEffect(() => {
+  const storedUser = localStorage.getItem('user');
+  
+  if (storedUser) {
+    setUser(JSON.parse(storedUser));
     setLoading(false); // ✅ Mark loading complete after reading localStorage
-  }, []);
+  } else {
+    setUser(null);
+  }
+}, []);
+
 
   const login = async (email: string, password: string) => {
     const res = await fetch('/api/login', {
